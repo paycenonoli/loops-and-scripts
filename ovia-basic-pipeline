@@ -1,0 +1,22 @@
+pipeline{
+    agent any
+    stages{
+        stage("Build Stage"){
+            steps{
+                echo "Building the source code"
+            }
+        }
+        stage("Testing the built artifact"){
+            steps{
+                 echo "Running tests for the artifact"
+            }
+           
+        }
+        stage("Deploying artifact to an environment"){
+            steps{
+                echo "Artifact deployment to Dev environment"
+            }
+            
+        }
+    }
+}

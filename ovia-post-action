@@ -1,0 +1,34 @@
+pipeline{
+    agent any
+    stages{
+        stage('Build stage'){
+            steps{
+                echo "This stage builds the source code"
+            }
+        }
+        stage('Test stage'){
+            steps{
+                echo "Testing the built artifact"
+            }
+        }
+        stage('Deploy stage'){
+            steps{
+                echo "Deploying artifact to Dev"
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo "Job has been built"
+        }
+        success {
+            echo "Build success"
+        }
+        failure {
+            echo "Build failure"
+        }
+    }
+
+    
+}

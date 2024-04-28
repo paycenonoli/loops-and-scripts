@@ -1,0 +1,15 @@
+pipeline{
+    agent any
+    stages{
+        stage("Checkout stage"){
+            steps{
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/paycenonoli/ovia-addressbook.git']])
+            }
+        }
+        stage('Contents'){
+            steps{
+                sh 'ls'
+            }
+        }
+    }
+}

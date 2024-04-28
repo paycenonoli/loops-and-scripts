@@ -1,0 +1,18 @@
+pipeline{
+    agent any
+    tools {
+        maven 'Maven'
+    }
+    stages{
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/paycenonoli/ovia-addressbook.git']])
+            }
+        }
+        stage('Build stage'){
+            steps{
+                sh 'mvn compile'
+            }
+        }
+    }
+}

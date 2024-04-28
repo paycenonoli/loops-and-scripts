@@ -1,0 +1,18 @@
+pipeline{
+    agent any
+    stages{
+        stage('Checkout from GitHub'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/paycenonoli/ovia-script-jenkins.git']])
+            }
+        }
+        stage('Script usage'){
+            steps{
+                sh'''
+                chmod +x helloworld.sh
+                sh helloworld.sh
+                '''
+            }
+        }
+    }
+}
