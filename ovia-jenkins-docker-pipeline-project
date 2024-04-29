@@ -1,0 +1,53 @@
+pipeline{
+    agent any
+    tools{
+        maven 'Maven'
+    }
+    options {
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '30', numToKeepStr: '1')
+    }
+    environment{
+        DOCKERHUB_CREDENTIALS = credentials('ovia-docker-cred')
+    }
+    stages{
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/paycenonoli/ovia-addressbook.git']])
+            }
+        }
+        stage('Maven build'){
+            steps{
+                sh 'mvn package'
+            }
+        }
+        stage('Docker build'){
+            steps{
+                sh 'docker build -t ojpascale/ovia-jenkins-docker-deployment:${BUILD_NUMBER} .'
+            }
+        }
+        stage('Docker push'){
+            steps{
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                sh "docker push ojpascale/ovia-jenkins-docker-deployment:${BUILD_NUMBER}"
+            }
+        }
+        stage('Docker run'){
+            steps{
+                sh "docker run -d -p 80:8080 --name ovia-addressbook ojpascale/ovia-jenkins-docker-deployment:${BUILD_NUMBER}"
+            }
+        }
+            
+    }
+    post {
+        always {
+            echo "Job completed"
+        }
+        success {
+            echo "Job completed successfully"
+        }
+         failure {
+            echo "Job failed"
+        }
+    }
+
+}

@@ -1,0 +1,12 @@
+pipeline{
+    agent{
+        label 'ovia-worker'
+    }
+    stages{
+        stage('First stage'){
+            steps{
+                echo "Hello, from agent ovia"
+            }
+        }
+    }
+}
