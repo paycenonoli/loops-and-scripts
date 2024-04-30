@@ -1,0 +1,21 @@
+# To make changes to a particular branch
+pipeline{
+    agent any
+    stages{
+        stage('Hello'){
+            steps{
+                echo "Hello..."
+            }
+        }
+        stage('cat README'){
+            when{
+                branch "dev"
+            }
+            steps{
+                sh '''
+                  cat README.md
+                '''        
+            }  
+        }   
+    }
+}

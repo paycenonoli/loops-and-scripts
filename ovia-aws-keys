@@ -1,0 +1,13 @@
+pipeline{
+    agent any
+    environment{
+        cred = credentials('aws-access-key')
+    }
+    stages{
+        stage('AWS check'){
+            steps{
+                sh "aws ec2 describe-instances"
+            }
+        }
+    }
+}
