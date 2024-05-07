@@ -1,0 +1,13 @@
+pipeline{
+    agent any
+    stages{
+        stage("input test"){
+            steps{
+                script{
+                    def approval = input id: 'Deploy', message: 'Approve for deployment', submitter: 'Admin'
+                }
+                echo "Deploying"
+            }
+        }
+    }
+}

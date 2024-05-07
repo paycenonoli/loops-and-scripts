@@ -1,0 +1,14 @@
+# First create a groovy script (e.g. helloWorld.groovy) in your shared library repo
+def call(config map = [:]){
+    sh "echo Hello ${config.name}. Today is {config.day}"
+}
+
+# Then build a pipeline job. In your Jenkinsfile, create a script like below:
+
+stages{
+    stage('Variable test'){
+        steps{
+            helloWorld(name: "Oviasis" , day: "Friday")
+        }
+    }
+}
