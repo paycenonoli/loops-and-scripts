@@ -1,0 +1,33 @@
+pipeline{
+    agent any
+    environment{
+        cred = credentials('ovia-aws-keys')
+    }
+    stages{
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/paycenonoli/terraform-jenkins.git']])
+            }
+        }
+        stage('Initialize'){
+            steps{
+                sh "terraform init"
+            }
+        }
+        stage('Plan'){
+            steps{
+                sh "terraform plan"
+            }
+        }
+        stage('Apply'){
+            steps{
+                sh "terraform apply --auto-approve"
+            }
+        }
+        // stage('Destroy'){
+        //     steps{
+        //         sh "terraform destroy --auto-approve"
+        //     }
+        // }
+    }
+}
