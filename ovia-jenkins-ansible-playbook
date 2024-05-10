@@ -1,0 +1,19 @@
+pipeline{
+    agent any
+    environment{
+        ovia_cred = credentials('ovia-ssh-keys')
+    }
+    stages{
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/paycenonoli/ovia-ansible-jenkins.git']])
+            }
+        }
+        stage('Ansible Playbook'){
+            steps{
+                sh "ansible-playbook -i inventory --private-key=${ovia_cred} ovia-playbook.yaml                                                                                                                                                                                                                                                                                                                                              "
+            }
+            
+        }
+    }
+}
