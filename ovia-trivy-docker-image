@@ -1,0 +1,15 @@
+# Scan Docker Image
+stage('Docker Image Scan'){
+    steps{
+        sh "trivy image --format table -o trivy-fs-report.html ojpsacale/k8s-project:latest"
+    }
+}
+stage('Push Docker Image'){
+    steps{
+        script{
+            withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker'){
+                sh "docker push ojpascale/k8s-project:latest"         
+            }
+        }
+    }
+}
