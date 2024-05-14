@@ -1,7 +1,7 @@
 # Scan Docker Image
 stage('Docker Image Scan'){
     steps{
-        sh "trivy image --format table -o trivy-fs-report.html ojpsacale/k8s-project:latest"
+        sh "trivy image --format table -o trivy-image-report.html ojpsacale/k8s-project:latest"
     }
 }
 stage('Push Docker Image'){
